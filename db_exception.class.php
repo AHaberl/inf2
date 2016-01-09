@@ -1,0 +1,1 @@
+class DbException extends Exception { }
