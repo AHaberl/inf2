@@ -1,3 +1,4 @@
+<?php
 class Db extends mysqli {
 
     private static $host = "localhost";
@@ -38,12 +39,13 @@ class Db extends mysqli {
         $visibility_order_value = $res_visibility_value -> fetch_assoc();
 
         $query_site_visibility = "SELECT order_value FROM sites " 
-                               . "INNER JOIN visibilities on sites.visibility = visibilities.name " "
+                               . "INNER JOIN visibilities on sites.visibility = visibilities.name " 
                                . "WHERE name = ?";
         
 	
-
+    
     }
 
 
 }
+?>

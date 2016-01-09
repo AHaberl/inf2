@@ -1,3 +1,4 @@
+<?php
 class Site {
     
     private static $query_getSite = "SELECT content FROM sites WHERE name = ?";
@@ -27,3 +28,4 @@ class Site {
         return $this->content;
     }
 }
+?>
