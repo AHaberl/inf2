@@ -15,6 +15,8 @@ foreach($topNavi->getItems() as $item) {
 	print($item);
 }
 
+print("<br><br>");
+print("Second Navi: <br>");
 
 print("<br>");
 print("<br>");
