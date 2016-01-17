@@ -1,14 +1,17 @@
 <?php
+
+require "db_exception.class.php";
+
 class Db extends mysqli {
 
     private static $host = "localhost";
-    private static $user = "";
+    private static $user = "root";
     private static $password = "";
     private static $db = "inf2";
 
 
     public function __construct(){
-	parent::__construct(self::$host, self::$user, self::$password, self::$db);
+	    parent::__construct(self::$host, self::$user, self::$password, self::$db);
     }
 
 
@@ -19,7 +22,15 @@ class Db extends mysqli {
             throw new DbException("Wrong sql " . $query . " error: " . $this->errno . " " . $this->error);
         }
 
-        call_user_func_array(array($stmt, 'bind_param'), $parameters);
+        for ($i=0; $i<count($parameters);$i++) {
+            $types[] = $parameter_types;
+            $type = 'bind' . $i;
+            $$type = $parameters[$i];
+            $types[] = &$$type;
+        }
+
+
+        call_user_func_array(array($stmt, 'bind_param'), $types);
         $stmt->execute();
 
         $result = $stmt->get_result();
@@ -29,23 +40,6 @@ class Db extends mysqli {
         }
         return $data;
     }
-
-    public function getSite($siteName, $visibility){
-        $query_visibility_value = "SELECT order_value FROM visibilities WHERE name = ?";
-        $stmt_visibility_value = $this -> prepare($query_visibility_value);
-        $stmt_visibility_value -> execute();
-
-        $res_visibility_value = $stmt_visibility_value -> get_result();
-        $visibility_order_value = $res_visibility_value -> fetch_assoc();
-
-        $query_site_visibility = "SELECT order_value FROM sites " 
-                               . "INNER JOIN visibilities on sites.visibility = visibilities.name " 
-                               . "WHERE name = ?";
-        
-	
-    
-    }
-
 
 }
 ?>
