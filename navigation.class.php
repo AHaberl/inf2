@@ -7,7 +7,7 @@ class Navigation {
 	private static $query_getNavigation = "SELECT * FROM navigations WHERE name = ?";
 	private static $query_navigationTypes = "s";
 
-	private static $query_getNavigationItems = "SELECT * FROM navigation_items WHERE navigation = ?";
+	private static $query_getNavigationItems = "SELECT * FROM navigation_items WHERE navigation = ? ORDER BY position";
 	private static $query_itemsTypes = "s";
 
 
