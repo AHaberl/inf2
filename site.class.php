@@ -14,12 +14,11 @@ class Site {
     private $db;
 
 
-    public function __construct($name){
+    public function __construct($name) {
         $this->name = $name;
-
         $this->db = new Db();
-
         $nameArray = array($name);
+        
         try {
             $result = $this->db->getValues(Site::$query_getSite, $nameArray, Site::$query_paramTypes);
             $this->content = $result[0]["content"];
