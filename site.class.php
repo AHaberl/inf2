@@ -5,27 +5,36 @@ include "db.class.php";
 
 class Site {
     
-    private static $query_getSite = "SELECT content FROM sites WHERE name = ?";
-    private static $query_paramTypes = "s";
+    private static $query_getSite = "SELECT name, content, parent FROM sites WHERE id = ?";
+    private static $query_paramTypes = "i";
 
+    private $id;
     private $name;
     private $visibility;
     private $content;
     private $db;
+    private $parent;
 
 
-    public function __construct($name) {
-        $this->name = $name;
+    public function __construct($id) {
+        $this->id = $id;
         $this->db = new Db();
-        $nameArray = array($name);
+        $idArray = array($id);
         
         try {
-            $result = $this->db->getValues(Site::$query_getSite, $nameArray, Site::$query_paramTypes);
+            $result = $this->db->getValues(Site::$query_getSite, $idArray, Site::$query_paramTypes);
+            $this->name = $result[0]["name"];
             $this->content = $result[0]["content"];
+            $this->parent = $result[0]["parent"];
         } catch (Exception $e) {
             print "error in sql call";
         }
         
+    }
+
+
+    public function getId(){
+        return $this->id;
     }
 
 
@@ -41,6 +50,10 @@ class Site {
 
     public function getContent(){
         return $this->content;
+    }
+
+    public function getParent(){
+        return $this->parent;
     }
 }
 ?>
