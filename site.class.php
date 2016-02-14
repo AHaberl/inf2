@@ -23,9 +23,11 @@ class Site {
         
         try {
             $result = $this->db->getValues(Site::$query_getSite, $idArray, Site::$query_paramTypes);
-            $this->name = $result[0]["name"];
-            $this->content = $result[0]["content"];
-            $this->parent = $result[0]["parent"];
+            if(sizeof($result) > 0) {
+                $this->name = $result[0]["name"];
+                $this->content = $result[0]["content"];
+                $this->parent = $result[0]["parent"];
+            }    
         } catch (Exception $e) {
             print "error in sql call";
         }
