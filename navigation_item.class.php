@@ -2,9 +2,9 @@
 
 class NavigationItem {
 	
-	private $name;
-	private $target;
-	
+	protected $name;
+	protected $target;
+	protected $html;
 
 	public function __construct($name, $target) {
         $this->name = $name;        
@@ -23,7 +23,7 @@ class NavigationItem {
 
 
 	public function __toString() {
-		return $this->name;
+		return $this->html;
 	}
 
 }
