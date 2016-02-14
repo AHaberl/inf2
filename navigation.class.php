@@ -1,11 +1,10 @@
 <?php
 
-require "navigation_item.class.php";
+require "top_navigation_item.class.php";
+require "left_navigation_item.class.php";
 
 class Navigation {
 	
-	/*private static $query_getNavigation = "SELECT * FROM navigations WHERE name = ?";
-	private static $query_navigationTypes = "s";*/
 
 	private static $query_getNavigationItems = "SELECT name, id FROM sites WHERE parent = ?";
 	private static $query_itemsTypes = "i";
@@ -16,16 +15,16 @@ class Navigation {
 	private $items = array();
 
 
-	public function __construct($name, $parent) {
+	public function __construct($name, $parent, $itemType) {
 		$this->name = $name;
 		$this->db = new Db();
 		
-        $this->loadNavigationItems($parent);
+        $this->loadNavigationItems($parent, $itemType);
 
 	}
 
 
-	private function loadNavigationItems($parent) {
+	private function loadNavigationItems($parent, $itemType) {
 		$parentArray = array($parent);
 
 		try {
@@ -33,7 +32,12 @@ class Navigation {
 		
 			for($i = 0; $i < count($result); $i++) {
 				$row = $result[$i];
-				$navigation_item = new NavigationItem($row['name'], $row['id']);
+				$navigation_item = null;
+				if($itemType == "top"){
+					$navigation_item = new TopNavigationItem($row['name'], $row['id']);
+				} elseif($itemType == "left"){
+					$navigation_item = new LeftNavigationItem($row['name'], $row['id']);
+				}
 				array_push($this->items, $navigation_item);
 			}
 
@@ -43,13 +47,18 @@ class Navigation {
 	}
 
 
-	public function getName() {
-		return $this->name;
+	public function __toString(){
+		$html = "";
+		foreach($this->items as $item) {
+			$html .= $item->__toString();
+		}
+		
+		return $html;
 	}
 
 
-	public function getItems() {
-		return $this->items;
+	public function isEmpty(){
+		return sizeof($this->items) <= 0;
 	}
 
 
