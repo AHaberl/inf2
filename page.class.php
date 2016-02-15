@@ -22,7 +22,12 @@ class Page {
 		if($this->site->getParent() == -1){
 			$this->navi_left = new Navigation("leftnavi", $this->site->getId(), "left");
 		} else {
-			$this->navi_left = new Navigation("leftnavi", $this->site->getParent(), "left");
+			$parentSite = new Site($this->site->getParent());
+			if($parentSite->getParent() == -1){
+				$this->navi_left = new Navigation("leftnavi", $this->site->getParent(), "left");		
+			} else {	
+				$this->navi_left = new Navigation("leftnavi", $parentSite->getParent(), "left");		
+			}
 		}
 	}	
 
