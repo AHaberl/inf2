@@ -12,6 +12,7 @@ class Db extends mysqli {
 
     public function __construct(){
 	    parent::__construct(self::$host, self::$user, self::$password, self::$db);
+	    $this->set_charset("utf8");
     }
 
 
